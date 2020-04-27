@@ -1,0 +1,4 @@
+displayName = Slayer Mod
+author = aferreirasv
+version = 0.1.1
+buildIgnore= *.csproj, *.user, obj\*, bin\*, .vs\*
