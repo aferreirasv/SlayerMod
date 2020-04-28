@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SlayerMod.Items
+namespace SlayerMod.Items.Weapons
 {
 	public class SlayerSword : ModItem
 	{

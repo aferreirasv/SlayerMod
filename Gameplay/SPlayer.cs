@@ -24,7 +24,7 @@ namespace SlayerMod.Gameplay
         {
 			if(activeTask != null)
             {
-				if (target.life <= 0 && target.type == activeTask.target.type)
+				if (target.life <= 0 && activeTask.targetIDs.Contains(target.type))
                 {
 					activeTask.UpdateProgress();
                 }

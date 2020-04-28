@@ -18,7 +18,7 @@ namespace SlayerMod.NPCs
             Splayer splayer = Main.player[projectile.owner].GetModPlayer<Splayer>();
             if (splayer.activeTask != null)
             {
-                if (npc.life <= 0 && npc.type == splayer.activeTask.target.type)
+                if (npc.life <= 0 && splayer.activeTask.targetIDs.Contains(npc.type))
                 {
                     splayer.activeTask.UpdateProgress();
                     //SlayerUI.UpdateUITask(splayer.activeTask);
@@ -32,7 +32,7 @@ namespace SlayerMod.NPCs
             Splayer splayer = player.GetModPlayer<Splayer>();
             if (splayer.activeTask != null)
             {
-                if (npc.life <= 0 && npc.type == splayer.activeTask.target.type)
+                if (npc.life <= 0 && splayer.activeTask.targetIDs.Contains(npc.type))
                 {
                     splayer.activeTask.UpdateProgress();
                     //SlayerUI.UpdateUITask(splayer.activeTask);

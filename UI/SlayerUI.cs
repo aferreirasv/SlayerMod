@@ -53,7 +53,7 @@ namespace SlayerMod.UI
                 progress.Left.Set(20, 0);
                 progress.Top.Set(50, 0);
                 SlayerPanel.Height.Set(90, 0);
-                target.SetText($"- {splayer.activeTask.target.FullName}");
+                target.SetText($"- {splayer.activeTask.targets[0].FullName}");
                 progress.SetText($"- {splayer.activeTask.progress}/{splayer.activeTask.quantity}");
             }
             else

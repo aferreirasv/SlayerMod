@@ -1,16 +1,12 @@
-using Terraria.ModLoader;
-using Terraria;
-using SlayerMod.Gameplay;
-using Terraria.ID;
-using SlayerMod.NPCs;
-using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.GameInput;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using SlayerMod.Gameplay;
+using SlayerMod.Items;
 using SlayerMod.UI;
+using Terraria;
+using Terraria.GameContent.UI;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 
 
@@ -18,6 +14,8 @@ namespace SlayerMod
 {
 	public class SlayerMod : Mod
 	{
+
+		public static int SlayerMedalID;
 		public UserInterface slayerInterface;
 		public SlayerUI slayerUI;
 		public SlayerMod()
@@ -27,6 +25,7 @@ namespace SlayerMod
 		{
 			if (!Main.dedServ)
 			{
+				SlayerMedalID = CustomCurrencyManager.RegisterCurrency(new SlayerMedalData(ItemType("SlayerMedalItem"), 999L));  //this defines the item Currency, so CustomCurrencyItem now is a Currency
 				slayerInterface = new UserInterface();
 				slayerUI = new SlayerUI();
 				slayerUI.Activate();
@@ -38,7 +37,7 @@ namespace SlayerMod
 		public override void UpdateUI(GameTime gameTime)
 		{
 			_lastUpdateUiGameTime = gameTime;
-			if(!Main.gameMenu && slayerInterface?.CurrentState != null)
+			if (!Main.gameMenu && slayerInterface?.CurrentState != null)
 			{
 				slayerInterface.Update(gameTime);
 				slayerUI.UpdateText();
@@ -74,7 +73,7 @@ namespace SlayerMod
 		{
 			slayerInterface.SetState(slayerUI);
 		}
-		
+
 
 		internal void HideUI()
 		{

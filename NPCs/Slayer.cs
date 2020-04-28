@@ -4,9 +4,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using SlayerMod.Items;
+using SlayerMod.Items.Weapons;
 using SlayerMod.Gameplay;
 using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
+using System.Collections.Generic;
 using SlayerMod;
 using SlayerMod.UI;
 
@@ -19,6 +21,7 @@ namespace SlayerMod.NPCs
         public override string Texture => "SlayerMod/NPCs/Slayer";
 
         public Task activeTask;
+
         public override bool Autoload(ref string name)
         {
             name = "Slayer";
@@ -125,14 +128,14 @@ namespace SlayerMod.NPCs
                 {
                     if (splayer.activeTask.progress >= splayer.activeTask.quantity)
                     {
-                        Main.npcChatText = $"Congratulations, you have completed the task, here's your NOTHING! HAHA";
-                        //SlayerUI.RemoveUITask();
+                        Main.npcChatText = $"Congratulations, you have completed the task, here's your {splayer.activeTask.reward} medals!";
+                        Main.LocalPlayer.QuickSpawnItem(ItemType<SlayerMedalItem>(), splayer.activeTask.reward);
                         splayer.RemoveTask();
                         
                     }
                     else
                     {
-                        Main.npcChatText = $"You haven't killed all those {splayer.activeTask.target.FullName}, you've killed only {splayer.activeTask.progress}! Go back there!";
+                        Main.npcChatText = $"You haven't killed all those {splayer.activeTask.targets[0].FullName}, you've killed only {splayer.activeTask.progress}! Go back there!";
                     }
                 }
                 else
@@ -141,7 +144,7 @@ namespace SlayerMod.NPCs
                     splayer.UpdateTask(new Task());
                     //SlayerUI.UpdateUITask(splayer.activeTask);
 
-                    Main.npcChatText = $"Go kill {splayer.activeTask.quantity} {splayer.activeTask.target.FullName}, {Main.LocalPlayer.name}";
+                    Main.npcChatText = $"Go kill {splayer.activeTask.quantity} {splayer.activeTask.targets[0].FullName}, {Main.LocalPlayer.name}";
 
                 }
             }
@@ -177,22 +180,24 @@ namespace SlayerMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
         {
-            int[] itemsAfterSlimeKing = new int[3] { ItemType<SlayerSword>(), ItemID.RecallPotion, ItemID.WormholePotion };
-            if (NPC.downedSlimeKing)   //this make so when the king slime is killed the town npc will sell this
+            ShopItem[] items = new ShopItem[4] 
+            { 
+                new ShopItem(ItemType<SlayerSword>(),   40, NPC.downedSlimeKing), 
+                new ShopItem(ItemType<LunarSword>(), 250, Main.hardMode),
+                new ShopItem(ItemID.RecallPotion,       5), 
+                new ShopItem(ItemID.WormholePotion,     3)
+            };
+
+            foreach(ShopItem item in items)
             {
-                shop.item[nextSlot].SetDefaults();  //an example of how to add a vanilla terraria item
-                foreach (int item in itemsAfterSlimeKing)
+                if (item.Available())
                 {
-                    shop.item[nextSlot].SetDefaults(item);
-                    nextSlot++; 
+                    shop.item[nextSlot].SetDefaults(item.id);
+                    shop.item[nextSlot].shopSpecialCurrency = SlayerMod.SlayerMedalID;
+                    shop.item[nextSlot].shopCustomPrice = item.price;
+                    nextSlot++;
                 }
-            }
-            if (NPC.downedBoss3)   //this make so when Skeletron is killed the town npc will sell this
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.GoldenKey);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemID.ClothierVoodooDoll);
-                nextSlot++;
+
             }
 
         }
