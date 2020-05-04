@@ -35,7 +35,7 @@ namespace SlayerMod.Gameplay
             new TaskTarget(new string[]{"PossessedArmor"}, targetTier: 3),
             new TaskTarget(new string[]{"Arapaima"},       targetTier: 3),
             new TaskTarget(new string[]{"Wraith"},         targetTier: 3),
-            new TaskTarget(new string[]{"DrMainFly"},      targetTier: 4),
+            new TaskTarget(new string[]{"DrMainFly"},      targetTier: 5),
         };
         
 

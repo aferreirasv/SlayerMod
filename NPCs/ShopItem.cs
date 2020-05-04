@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SlayerMod.NPCs
 {
-    class ShopItem
+    public class ShopItem
     {
         public int id;
         public int price;

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace SlayerMod.Dusts
 {
-	public class SpectreDust : ModDust
+	public class LunarDust : ModDust
 	{
 		public override void OnSpawn(Dust dust)
 		{

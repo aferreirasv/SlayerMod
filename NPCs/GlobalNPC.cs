@@ -24,6 +24,7 @@ namespace SlayerMod.NPCs
                     //SlayerUI.UpdateUITask(splayer.activeTask);
                 }
             }
+
             base.OnHitByProjectile(npc, projectile, damage, knockback, crit);
         }
 
@@ -40,6 +41,19 @@ namespace SlayerMod.NPCs
             }
 
             base.OnHitByItem(npc, player, item, damage, knockback, crit);
+        }
+
+        public override void NPCLoot(NPC npc)
+        {
+            Splayer splayer = Main.LocalPlayer.GetModPlayer<Splayer>();
+            if(splayer.activeBossTask != null)
+            {
+                if (splayer.activeBossTask.targetIDs.Contains(npc.type) && npc.boss)
+                {
+                    Item.NewItem(npc.getRect(), splayer.activeBossTask.reward);
+                    splayer.RemoveBossTask();
+                }
+            }
         }
 
     }

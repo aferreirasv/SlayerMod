@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using SlayerMod.Items;
+using SlayerMod.Items.Boxes;
 using SlayerMod.Items.Weapons;
 using SlayerMod.Gameplay;
 using Microsoft.Xna.Framework;
@@ -113,6 +114,8 @@ namespace SlayerMod.NPCs
         {
             button = "Shop"; //this defines the buy button name
             button2 = "Task";
+            if (Main.LocalPlayer.HasItem(ItemType<BossMedallion>()))
+                button2 = "Boss Task";         
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool openShop) //Allows you to make something happen whenever a button is clicked on this town NPC's chat window. The firstButton parameter tells whether the first button or second button (button and button2 from SetChatButtons) was clicked. Set the shop parameter to true to open this NPC's shop.
@@ -124,6 +127,26 @@ namespace SlayerMod.NPCs
             }
             else
             {
+                if (Main.LocalPlayer.HasItem(ItemType<BossMedallion>())) 
+                {
+                    if(splayer.activeBossTask != null)
+                    {
+                        Main.npcChatText = "What? Are you afraid? GO!!!";
+                    }
+                    else
+                    {
+                        splayer.UpdateBossTask(new BossTask());
+                        Main.npcChatText = $"I have a special task for you today... I want you to kill {splayer.activeBossTask.target.bossName}. Good Luck.";
+                    }
+
+
+
+
+
+                }
+                else
+                {
+
                 if (splayer.activeTask != null)
                 {
                     if (splayer.activeTask.progress >= splayer.activeTask.quantity)
@@ -146,6 +169,7 @@ namespace SlayerMod.NPCs
 
                     Main.npcChatText = $"Go kill {splayer.activeTask.quantity} {splayer.activeTask.targets[0].FullName}, {Main.LocalPlayer.name}";
 
+                }
                 }
             }
         }
@@ -180,12 +204,9 @@ namespace SlayerMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)       //Allows you to add items to this town NPC's shop. Add an item by setting the defaults of shop.item[nextSlot] then incrementing nextSlot.
         {
-            ShopItem[] items = new ShopItem[4] 
+            ShopItem[] items = new ShopItem[1] 
             { 
-                new ShopItem(ItemType<SlayerSword>(),   40, NPC.downedSlimeKing), 
-                new ShopItem(ItemType<LunarSword>(), 250, Main.hardMode),
-                new ShopItem(ItemID.RecallPotion,       5), 
-                new ShopItem(ItemID.WormholePotion,     3)
+                new ShopItem(ItemType<SlayerBox>(),   25, NPC.downedBoss1) // Eye Of Cthulhu
             };
 
             foreach(ShopItem item in items)

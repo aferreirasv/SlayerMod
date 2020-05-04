@@ -13,7 +13,7 @@ using SlayerMod.Projectiles;
 
 namespace SlayerMod.Items.Weapons
 {
-    class LunarSword : ModItem
+    class LunarScimitar : ModItem
     {
 
         public override void SetDefaults()
@@ -23,23 +23,23 @@ namespace SlayerMod.Items.Weapons
             item.width = 30;
             item.height = 30;
             item.useTime = 15;
-            item.useAnimation = 20;
+            item.useAnimation = 15;
             item.useStyle = 1;
             item.knockBack = 6;
             item.value = 30000;
             item.rare = 3;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = ProjectileType<LunarProjectile>();
-            item.shootSpeed = 4f;
+            item.shoot = ProjectileType<LunarScimitarProjectile>();
+            item.shootSpeed = 20f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(4))
             {
                 //Emit dusts when the sword is swung
-                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustType<SpectreDust>());
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustType<LunarDust>());
             }
         }
 
